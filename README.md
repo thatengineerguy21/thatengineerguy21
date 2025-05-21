@@ -1,8 +1,6 @@
 <h1 align="center">Hi 👋, I'm Vedant Chaudhari</h1>
 <h3 align="center">A Developer from India working with various technologies</h3>
 
-<p align="left"> <img src="https://komarev.com/ghpvc/?username=thatengineerguy21&label=Profile%20views&color=0e75b6&style=flat" alt="thatengineerguy21" /> </p>
-
 - 🔭 I’m currently working on [calculator-notes](https://github.com/thatengineerguy21/calculator-notes-frontend)
 
 - 🌱 I’m currently learning **Python and React**
