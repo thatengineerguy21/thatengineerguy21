@@ -1,7 +1,7 @@
 <h1 align="center">Hi 👋, I'm Vedant Chaudhari</h1>
 <h3 align="center">A Developer from India working with various technologies</h3>
 
-- 🔭 I’m currently working on [calculator-notes](https://github.com/thatengineerguy21/calculator-notes-frontend)
+- 🔭 I’m currently working on [calculator-notes](https://github.com/thatengineerguy21/calculator-notes-frontend) [Jal-Sanket-Kendra](https://github.com/thatengineerguy21/Jal-Sanket-Kendra)
 
 - 🌱 I’m currently learning **Python and React**
 
