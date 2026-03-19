@@ -11,7 +11,7 @@
 
 - 📫 How to reach me **vedantchaudhari.work@gmail.com**
 
-- 🌐 Check out my Portfolio at [thatengineerguy.in](www.thatengineerguy.in)
+- 🌐 Check out my Portfolio at [thatengineerguy.in](https://thatengineerguy.in)
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
