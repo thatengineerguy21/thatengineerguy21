@@ -87,6 +87,7 @@
     @keyframes rankAnimation {
       from { stroke-dasharray: 0, 2000; }
       to { stroke-dasharray: 134.9, 2000; }
+
     }
 
     .rank-text {
@@ -172,6 +173,7 @@
       </svg>
       <text class="font-stat bold" x="25" y="12.5">Total Commits:</text>
       <text class="font-stat val" x="170" y="12.5">727</text>
+
     </g>
 
     <!-- Row 3: Total PRs -->
@@ -224,6 +226,7 @@
     <g transform="translate(519, 58)">
       <text x="0" y="32" text-anchor="middle" fill="#00A375" font-family="'Segoe UI', Ubuntu, sans-serif" font-weight="700" font-size="28px" class="stagger" style="animation-delay: 400ms;">
         836
+
       </text>
     </g>
     <g transform="translate(519, 98)">
@@ -248,6 +251,7 @@
     <g transform="translate(667, 158)">
       <text x="0" y="21" text-anchor="middle" fill="#80CBC4" font-family="'Segoe UI', Ubuntu, sans-serif" font-weight="400" font-size="12px" class="stagger" style="animation-delay: 700ms;">
         Sep 03 &#8211; Sep 08
+
       </text>
     </g>
 
