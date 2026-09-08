@@ -66,9 +66,9 @@ def load_env():
         except Exception:
             pass
 
-def fetch_graphql_data(token, username):
-    """Fetch GitHub stats via GraphQL API."""
-    query = """
+def fetch_all_time_stats(token, username):
+    """Fetch all-time stats across all active years, plus trailing 1-year calendar for the activity graph."""
+    query_base = """
     query($login: String!) {
       user(login: $login) {
         name
@@ -100,10 +100,7 @@ def fetch_graphql_data(token, username):
         repositoriesContributedTo(contributionTypes: [COMMIT, ISSUE, PULL_REQUEST, REPOSITORY]) {
           totalCount
         }
-        contributionsCollection {
-          totalCommitContributions
-          totalIssueContributions
-          totalPullRequestContributions
+        pastYearCalendar: contributionsCollection {
           contributionCalendar {
             totalContributions
             weeks {
@@ -113,6 +110,7 @@ def fetch_graphql_data(token, username):
               }
             }
           }
+          contributionYears
         }
       }
     }
@@ -123,25 +121,83 @@ def fetch_graphql_data(token, username):
         "Content-Type": "application/json",
         "User-Agent": "Gotham-Stats-Generator"
     }
-    payload = json.dumps({"query": query, "variables": {"login": username}}).encode("utf-8")
+    payload = json.dumps({"query": query_base, "variables": {"login": username}}).encode("utf-8")
     req = urllib.request.Request(url, data=payload, headers=headers)
     with urllib.request.urlopen(req) as resp:
         res_data = json.loads(resp.read().decode("utf-8"))
         if "errors" in res_data:
             raise RuntimeError(f"GraphQL Errors: {res_data['errors']}")
-        return res_data["data"]["user"]
+        base_user = res_data["data"]["user"]
+
+    years = base_user["pastYearCalendar"].get("contributionYears", [])
+    
+    total_commits = 0
+    all_time_contributions = 0
+    all_calendar_weeks = []
+    
+    if years:
+        year_fields = []
+        for y in years:
+            year_fields.append(f"""
+            y_{y}: contributionsCollection(from: "{y}-01-01T00:00:00Z", to: "{y}-12-31T23:59:59Z") {{
+              totalCommitContributions
+              restrictedContributionsCount
+              contributionCalendar {{
+                totalContributions
+                weeks {{
+                  contributionDays {{
+                    contributionCount
+                    date
+                  }}
+                }}
+              }}
+            }}
+            """)
+        query_years = f"""
+        query($login: String!) {{
+          user(login: $login) {{
+            {"".join(year_fields)}
+          }}
+        }}
+        """
+        payload_years = json.dumps({"query": query_years, "variables": {"login": username}}).encode("utf-8")
+        req_years = urllib.request.Request(url, data=payload_years, headers=headers)
+        with urllib.request.urlopen(req_years) as resp_years:
+            res_years = json.loads(resp_years.read().decode("utf-8"))
+            if "errors" in res_years:
+                raise RuntimeError(f"GraphQL Years Errors: {res_years['errors']}")
+            years_data = res_years["data"]["user"]
+
+        for y in sorted(years):
+            yd = years_data.get(f"y_{y}", {})
+            commits_in_year = yd.get("totalCommitContributions", 0) + yd.get("restrictedContributionsCount", 0)
+            total_commits += commits_in_year
+            total_contribs_year = yd.get("contributionCalendar", {}).get("totalContributions", 0)
+            all_time_contributions += total_contribs_year
+            all_calendar_weeks.extend(yd.get("contributionCalendar", {}).get("weeks", []))
+    else:
+        py_cal = base_user["pastYearCalendar"]["contributionCalendar"]
+        total_commits = base_user["pastYearCalendar"].get("totalCommitContributions", 0)
+        all_time_contributions = py_cal.get("totalContributions", 0)
+        all_calendar_weeks = py_cal.get("weeks", [])
+
+    return base_user, total_commits, all_time_contributions, all_calendar_weeks
 
 def calculate_streaks(weeks):
-    """Calculate current and longest contribution streaks from calendar days."""
-    days = []
+    """Calculate current and longest contribution streaks across calendar days up to today."""
+    today_str = datetime.date.today().isoformat()
+    days_dict = {}
     for w in weeks:
         for d in w.get("contributionDays", []):
-            days.append((d["date"], d["contributionCount"]))
+            date_str = d["date"]
+            # Exclude future placeholder days returned by GitHub API
+            if date_str <= today_str:
+                days_dict[date_str] = max(days_dict.get(date_str, 0), d.get("contributionCount", 0))
     
-    if not days:
+    if not days_dict:
         return 0, "", 0, ""
 
-    days.sort(key=lambda x: x[0])
+    days = sorted(days_dict.items(), key=lambda x: x[0])
     
     longest_streak = 0
     longest_range = ""
@@ -160,10 +216,15 @@ def calculate_streaks(weeks):
             temp_streak = 0
             temp_start = ""
             
+    # For current streak: check up to today (or yesterday if today is 0)
+    check_days = days
+    if check_days and check_days[-1][1] == 0:
+        check_days = days[:-1]
+
     cur_streak = 0
     cur_start = ""
     cur_end = ""
-    for date_str, count in reversed(days):
+    for date_str, count in reversed(check_days):
         if count > 0:
             if cur_streak == 0:
                 cur_end = date_str
@@ -172,8 +233,7 @@ def calculate_streaks(weeks):
                 cur_start = date_str
             cur_streak += 1
         else:
-            if cur_streak > 0:
-                break
+            break
                 
     current_streak = cur_streak
     current_range = f"{cur_start} – {cur_end}" if cur_streak > 0 else "No active streak"
@@ -182,22 +242,27 @@ def calculate_streaks(weeks):
         if "–" not in range_str:
             return range_str
         parts = [p.strip() for p in range_str.split("–")]
+        if len(parts) != 2:
+            return range_str
         try:
             d1 = datetime.datetime.strptime(parts[0], "%Y-%m-%d")
             d2 = datetime.datetime.strptime(parts[1], "%Y-%m-%d")
-            return f"{d1.strftime('%b %d')} – {d2.strftime('%b %d')}"
+            return f"{d1.strftime('%b %d')} &#8211; {d2.strftime('%b %d')}"
         except Exception:
             return range_str
 
     return current_streak, format_range(current_range), longest_streak, format_range(longest_range)
 
 def aggregate_monthly_contributions(weeks):
-    """Aggregate daily contributions into monthly totals over the last 12 months."""
+    """Aggregate daily contributions into monthly totals over the last 12-13 months up to today."""
+    today_str = datetime.date.today().isoformat()
     month_map = {}
     for w in weeks:
         for d in w.get("contributionDays", []):
-            month_key = d["date"][:7] # YYYY-MM
-            month_map[month_key] = month_map.get(month_key, 0) + d["contributionCount"]
+            date_str = d["date"]
+            if date_str <= today_str:
+                month_key = date_str[:7] # YYYY-MM
+                month_map[month_key] = month_map.get(month_key, 0) + d["contributionCount"]
             
     sorted_months = sorted(month_map.items())[-13:]
     return sorted_months
@@ -273,32 +338,40 @@ def calculate_rank_and_progress(commits, prs, issues, stars, contributed_to):
     return level, circle_progress
 
 def get_stats():
-    """Retrieve stats from GitHub API if token is present; otherwise use screenshot preview values."""
+    """Retrieve all-time stats from GitHub API if token is present; otherwise use preview snapshot values."""
     token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN") or os.environ.get("METRICS_TOKEN")
     username = "thatengineerguy21"
     
     if token:
         try:
-            print("[INFO] Fetching real data via GitHub GraphQL API...")
-            data = fetch_graphql_data(token, username)
-            name = data.get("name") or username
+            print("[INFO] Fetching all-time data via GitHub GraphQL API...")
+            base_user, total_commits, all_time_contributions, all_weeks = fetch_all_time_stats(token, username)
+            name = base_user.get("name") or username
             
-            repos = data.get("repositories", {})
+            repos = base_user.get("repositories", {})
             stars = sum(r.get("stargazerCount", 0) for r in repos.get("nodes", []))
             
-            coll = data.get("contributionsCollection", {})
-            total_commits = coll.get("totalCommitContributions", 0)
-            total_prs = data.get("pullRequests", {}).get("totalCount", 0)
-            total_issues = data.get("issues", {}).get("totalCount", 0)
-            contributed_to = data.get("repositoriesContributedTo", {}).get("totalCount", 0)
+            total_prs = base_user.get("pullRequests", {}).get("totalCount", 0)
+            total_issues = base_user.get("issues", {}).get("totalCount", 0)
+            contributed_to = base_user.get("repositoriesContributedTo", {}).get("totalCount", 0)
             
-            calendar = coll.get("contributionCalendar", {})
-            total_contributions = calendar.get("totalContributions", 0)
+            # All-time streak calculation across all calendar years
+            cur_streak, cur_range, longest_streak, longest_range = calculate_streaks(all_weeks)
             
-            cur_streak, cur_range, longest_streak, longest_range = calculate_streaks(calendar.get("weeks", []))
-            monthly_contribs = aggregate_monthly_contributions(calendar.get("weeks", []))
+            # Trailing 1-year calendar strictly for the Activity Graph
+            past_year_weeks = base_user["pastYearCalendar"]["contributionCalendar"].get("weeks", [])
+            monthly_contribs = aggregate_monthly_contributions(past_year_weeks)
+            
             languages = aggregate_languages(repos)
             rank, rank_progress = calculate_rank_and_progress(total_commits, total_prs, total_issues, stars, contributed_to)
+            
+            # Format account creation date for Total Contributions subtitle
+            created_at_raw = base_user.get("createdAt", "")
+            try:
+                created_dt = datetime.datetime.fromisoformat(created_at_raw.replace("Z", "+00:00"))
+                created_range = f"{created_dt.strftime('%b %d, %Y')} &#8211; Present"
+            except Exception:
+                created_range = "Sep 30, 2021 &#8211; Present"
             
             return {
                 "name": name,
@@ -308,7 +381,8 @@ def get_stats():
                 "prs": total_prs,
                 "issues": total_issues,
                 "contributed_to": contributed_to,
-                "total_contributions": total_contributions,
+                "total_contributions": all_time_contributions,
+                "created_at_range": created_range,
                 "current_streak": cur_streak,
                 "current_streak_range": cur_range,
                 "longest_streak": longest_streak,
@@ -320,36 +394,37 @@ def get_stats():
                 "source": "live"
             }
         except Exception as e:
-            print(f"[WARN] Live fetch failed ({e}), using screenshot preview values.")
+            print(f"[WARN] Live fetch failed ({e}), using preview snapshot values.")
 
-    # Screenshot preview values from tmp directory
+    # High-fidelity preview values based on profile history
     return {
         "name": "Vedant Chaudhari",
         "login": "thatengineerguy21",
-        "stars": 5,
-        "commits": 783,
-        "prs": 16,
+        "stars": 1,
+        "commits": 727,
+        "prs": 65,
         "issues": 7,
-        "contributed_to": 16,
-        "total_contributions": 826,
-        "current_streak": 5,
-        "current_streak_range": "Sep 3 – Sep 7",
+        "contributed_to": 7,
+        "total_contributions": 836,
+        "created_at_range": "Sep 30, 2021 &#8211; Present",
+        "current_streak": 6,
+        "current_streak_range": "Sep 03 &#8211; Sep 08",
         "longest_streak": 38,
-        "longest_streak_range": "Apr 11 – May 18",
+        "longest_streak_range": "Apr 11 &#8211; May 18",
         "monthly_contributions": [
-            ("2025-09", 0),
-            ("2025-10", 12),
-            ("2025-11", 58),
-            ("2025-12", 15),
-            ("2026-01", 38),
-            ("2026-02", 45),
-            ("2026-03", 85),
-            ("2026-04", 135),
-            ("2026-05", 70),
-            ("2026-06", 75),
-            ("2026-07", 52),
-            ("2026-08", 220),
-            ("2026-09", 80)
+            ("2025-09", 8),
+            ("2025-10", 0),
+            ("2025-11", 43),
+            ("2025-12", 1),
+            ("2026-01", 42),
+            ("2026-02", 41),
+            ("2026-03", 97),
+            ("2026-04", 121),
+            ("2026-05", 57),
+            ("2026-06", 60),
+            ("2026-07", 28),
+            ("2026-08", 209),
+            ("2026-09", 38)
         ],
         "languages": [
             {"name": "Python", "percent": 41.2, "color": OFFICIAL_LANG_COLORS["Python"]},
@@ -358,8 +433,8 @@ def get_stats():
             {"name": "C++", "percent": 10.4, "color": OFFICIAL_LANG_COLORS["C++"]},
             {"name": "HTML/CSS", "percent": 5.6, "color": OFFICIAL_LANG_COLORS["HTML/CSS"]}
         ],
-        "rank": "A+",
-        "rank_progress": 154.57,
+        "rank": "A",
+        "rank_progress": 134.9,
         "source": "preview"
     }
 
@@ -684,7 +759,7 @@ def generate_svg(stats):
     </g>
     <g transform="translate(519, 130)">
       <text x="0" y="32" text-anchor="middle" fill="{TEXT_DIM}" font-family="'Segoe UI', Ubuntu, sans-serif" font-weight="400" font-size="12px" class="stagger" style="animation-delay: 600ms;">
-        Sep 30, 2021 – Present
+        {stats.get('created_at_range', 'Sep 30, 2021 &#8211; Present')}
       </text>
     </g>
 
