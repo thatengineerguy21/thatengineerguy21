@@ -35,6 +35,7 @@ SKILL_CATEGORIES = [
         "title": "Languages",
         "skills": [
             {"name": "Python", "file": "Python-Dark.svg"},
+            {"name": "Go", "file": "GoLang.svg"}
             {"name": "TypeScript", "file": "TypeScript.svg"},
             {"name": "JavaScript", "file": "JavaScript.svg"},
             {"name": "C++", "file": "CPP.svg"},
