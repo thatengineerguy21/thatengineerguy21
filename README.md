@@ -21,17 +21,11 @@
 <a href="https://medium.com/@thatengineerguy" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/medium.svg" alt="@thatengineerguy" height="30" width="40" /></a>
 </p>
 
-<h3 align="left">Languages and Tools:</h3>
 <p align="center">
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=html,css,tailwind,js,ts,react,nodejs,express,fastapi,mongodb,postgres,py,cpp,r,md,sklearn,selenium,gcp,docker,linux,git,github,anaconda,vscode,vim" />
-  </a>
+  <img src="./assets/skills.svg" alt="Languages and Technologies" />
 </p>
 
-<p><img align="left" src="https://github-readme-stats.vercel.app/api/top-langs?username=thatengineerguy21&show_icons=true&locale=en&layout=compact" alt="thatengineerguy21" /></p>
+<p align="center">
+  <img src="./assets/github-stats.svg" alt="GitHub Profile Statistics" />
+</p>
 
-[![My Awesome Stats](https://awesome-github-stats.azurewebsites.net/user-stats/thatengineerguy21?cardType=level&theme=gotham&fontFamily=Google%20Sans%20Code&preferLogin=false)](https://git.io/awesome-stats-card)
-
-[![GitHub Streak](https://github-readme-streak-stats.herokuapp.com?user=thatengineerguy21&theme=gotham)](https://git.io/streak-stats)
-
-![](http://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=thatengineerguy21&theme=gotham)

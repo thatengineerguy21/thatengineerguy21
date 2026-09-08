@@ -1,0 +1,379 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="890" height="480" viewBox="0 0 890 480" fill="none" role="img" aria-label="GitHub Profile Statistics for Vedant Chaudhari">
+  <defs>
+    <!-- Mask for fire icon resting on top of streak ring (tmp/card.php) -->
+    <mask id="mask_out_ring_behind_fire">
+      <rect width="890" height="480" fill="white"/>
+      <ellipse cx="667" cy="42" rx="14" ry="18" fill="black"/>
+    </mask>
+
+    <!-- Clip path for smooth monthly chart reveal wipe -->
+    <clipPath id="chart_reveal_clip">
+      <rect class="chart-wipe" x="30" y="255" width="815" height="110" />
+    </clipPath>
+  </defs>
+
+  <style>
+    .header {
+      font-family: 'Segoe UI', Ubuntu, -apple-system, sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      fill: #00A375;
+      animation: fadeIn 0.6s ease-in-out forwards;
+    }
+
+    .section-header {
+      font-family: 'Segoe UI', Ubuntu, -apple-system, sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      fill: #00A375;
+      animation: fadeIn 0.6s ease-in-out forwards;
+    }
+
+    .caption {
+      font-family: 'Segoe UI', Ubuntu, -apple-system, sans-serif;
+      font-size: 11px;
+      fill: #80CBC4;
+    }
+
+    .font-stat {
+      font-family: 'Segoe UI', Ubuntu, -apple-system, sans-serif;
+      font-size: 13px;
+      fill: #80CBC4;
+    }
+
+    .bold {
+      font-weight: 600;
+      fill: #80CBC4;
+    }
+
+    .val {
+      font-weight: 700;
+      fill: #E0F2F1;
+    }
+
+    .icon {
+      fill: #00A375;
+    }
+
+    /* Staggered Fade-in */
+    .stagger {
+      opacity: 0;
+      animation: fadeIn 0.4s ease-in-out forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Ranking Circle Animations (AwesomeGithubStats) */
+    .rank-circle-rim {
+      stroke: #00573F;
+      fill: none;
+      stroke-width: 6;
+      opacity: 0.2;
+    }
+
+    .rank-circle {
+      stroke: #00A375;
+      stroke-dasharray: 0, 20000;
+      fill: none;
+      stroke-width: 6;
+      opacity: 0;
+      stroke-linecap: round;
+      animation: rankAnimation 3s ease-in-out 0.6s forwards, fadeIn 0.3s ease-in-out 0.6s forwards;
+    }
+
+    @keyframes rankAnimation {
+      from { stroke-dasharray: 0, 2000; }
+      to { stroke-dasharray: 154.57, 2000; }
+    }
+
+    .rank-text {
+      font-family: 'Segoe UI', Ubuntu, -apple-system, sans-serif;
+      font-size: 46px;
+      font-weight: 800;
+      stroke-width: 1.5;
+      stroke: #00A375;
+      fill: #00A375;
+      animation: stroke 4.5s alternate forwards;
+    }
+
+    @keyframes stroke {
+      0% {
+        fill: rgba(0, 163, 117, 0);
+        stroke: #00A375;
+        stroke-dashoffset: 25%;
+        stroke-dasharray: 0 50%;
+        stroke-width: 2;
+      }
+      70% {
+        fill: rgba(0, 163, 117, 0);
+        stroke: #00A375;
+      }
+      80% {
+        fill: rgba(0, 163, 117, 0);
+        stroke: #00A375;
+        stroke-width: 3;
+      }
+      100% {
+        fill: #00A375;
+        stroke: #00A375;
+        stroke-dashoffset: -25%;
+        stroke-dasharray: 50% 0;
+        stroke-width: 0;
+      }
+    }
+
+    /* Streak Animations */
+    @keyframes currstreak {
+      0% { font-size: 3px; opacity: 0.2; }
+      80% { font-size: 34px; opacity: 1; }
+      100% { font-size: 28px; opacity: 1; }
+    }
+
+    /* Chart Wipe-in Animation */
+    .chart-wipe {
+      animation: chartWipeAnim 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+    }
+
+    @keyframes chartWipeAnim {
+      from { width: 0; }
+      to { width: 815px; }
+    }
+
+    .lang-seg {
+      animation: fadeIn 0.8s ease-in-out 0.5s forwards;
+    }
+  </style>
+
+  <!-- Solid Clean Gotham Outer Border -->
+  <rect x="0.5" y="0.5" width="889" height="479" rx="6" fill="#000B0B" stroke="#00573F" stroke-width="1" />
+
+  <!-- ==================== SECTION 1: TOP (OVERVIEW + STREAKS) ==================== -->
+  <!-- Name Header -->
+  <text class="header" x="25" y="38">Vedant Chaudhari</text>
+
+  <!-- Overview Stats Rows -->
+  <g transform="translate(0, 56)">
+    <!-- Row 1: Total Stars -->
+    <g class="stagger" style="animation-delay: 200ms;" transform="translate(25, 0)">
+      <svg class="icon" viewBox="0 0 16 16" width="16" height="16">
+        <path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25zm0 2.445L6.615 5.5a.75.75 0 01-.564.41l-3.097.45 2.24 2.184a.75.75 0 01.216.664l-.528 3.084 2.769-1.456a.75.75 0 01.698 0l2.77 1.456-.53-3.084a.75.75 0 01.216-.664l2.24-2.183-3.096-.45a.75.75 0 01-.564-.41L8 2.694v.001z"/>
+      </svg>
+      <text class="font-stat bold" x="25" y="12.5">Total Stars:</text>
+      <text class="font-stat val" x="170" y="12.5">5</text>
+    </g>
+
+    <!-- Row 2: Total Commits (Icon.CLOCK from AwesomeGithubStats) -->
+    <g class="stagger" style="animation-delay: 300ms;" transform="translate(25, 30)">
+      <svg class="icon" viewBox="0 0 16 16" width="16" height="16">
+        <path fill-rule="evenodd" d="M1.643 3.143L.427 1.927A.25.25 0 000 2.104V5.75c0 .138.112.25.25.25h3.646a.25.25 0 00.177-.427L2.715 4.215a6.5 6.5 0 11-1.18 4.458.75.75 0 10-1.493.154 8.001 8.001 0 101.6-5.684zM7.75 4a.75.75 0 01.75.75v2.992l2.028.812a.75.75 0 01-.557 1.392l-2.5-1A.75.75 0 017 8.25v-3.5A.75.75 0 017.75 4z"/>
+      </svg>
+      <text class="font-stat bold" x="25" y="12.5">Total Commits:</text>
+      <text class="font-stat val" x="170" y="12.5">783</text>
+    </g>
+
+    <!-- Row 3: Total PRs -->
+    <g class="stagger" style="animation-delay: 400ms;" transform="translate(25, 60)">
+      <svg class="icon" viewBox="0 0 16 16" width="16" height="16">
+        <path fill-rule="evenodd" d="M7.177 3.073L9.573.677A.25.25 0 0110 .854v4.792a.25.25 0 01-.427.177L7.177 3.427a.25.25 0 010-.354zM3.75 2.5a.75.75 0 100 1.5.75.75 0 000-1.5zm-2.25.75a2.25 2.25 0 113 2.122v5.256a2.251 2.251 0 11-1.5 0V5.372A2.25 2.25 0 011.5 3.25zM11 2.5h-1V4h1a1 1 0 011 1v5.628a2.251 2.251 0 101.5 0V5A2.5 2.5 0 0011 2.5zm1 10.25a.75.75 0 111.5 0 .75.75 0 01-1.5 0zM3.75 12a.75.75 0 100 1.5.75.75 0 000-1.5z"/>
+      </svg>
+      <text class="font-stat bold" x="25" y="12.5">Total PRs:</text>
+      <text class="font-stat val" x="170" y="12.5">16</text>
+    </g>
+
+    <!-- Row 4: Total Issues -->
+    <g class="stagger" style="animation-delay: 500ms;" transform="translate(25, 90)">
+      <svg class="icon" viewBox="0 0 16 16" width="16" height="16">
+        <path fill-rule="evenodd" d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm9 3a1 1 0 11-2 0 1 1 0 012 0zm-.25-6.25a.75.75 0 00-1.5 0v3.5a.75.75 0 001.5 0v-3.5z"/>
+      </svg>
+      <text class="font-stat bold" x="25" y="12.5">Total Issues:</text>
+      <text class="font-stat val" x="170" y="12.5">7</text>
+    </g>
+
+    <!-- Row 5: Contributed To -->
+    <g class="stagger" style="animation-delay: 600ms;" transform="translate(25, 120)">
+      <svg class="icon" viewBox="0 0 16 16" width="16" height="16">
+        <path fill-rule="evenodd" d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"/>
+      </svg>
+      <text class="font-stat bold" x="25" y="12.5">Contributed to:</text>
+      <text class="font-stat val" x="170" y="12.5">16</text>
+    </g>
+
+    <!-- EXACT RANK CIRCLE (Directly extracted from AwesomeGithubStats UserStatsCard.cs) -->
+    <g data-testid="rank-circle" transform="translate(365, 58)">
+      <circle class="rank-circle-rim" cx="-10" cy="8" r="60"/>
+      <circle class="rank-circle" cx="-10" cy="8" r="60" transform="rotate(-90 -10 8)" />
+      <g class="rank-text">
+        <text x="-10" y="7" dy=".35em" text-anchor="middle">A+</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- Vertical Divider 1 -->
+  <line x1="445" y1="20" x2="445" y2="210" stroke="#00573F" stroke-width="1" stroke-opacity="0.7"/>
+
+  <!-- Streak Section (Directly extracted from tmp/card.php) -->
+  <g transform="translate(0, 0)">
+    <!-- Vertical divider between streak columns -->
+    <line x1="593" y1="30" x2="593" y2="200" stroke="#00573F" stroke-width="1" stroke-opacity="0.5"/>
+    <line x1="741" y1="30" x2="741" y2="200" stroke="#00573F" stroke-width="1" stroke-opacity="0.5"/>
+
+    <!-- Column 1: Total Contributions -->
+    <g transform="translate(519, 58)">
+      <text x="0" y="32" text-anchor="middle" fill="#00A375" font-family="'Segoe UI', Ubuntu, sans-serif" font-weight="700" font-size="28px" class="stagger" style="animation-delay: 400ms;">
+        826
+      </text>
+    </g>
+    <g transform="translate(519, 98)">
+      <text x="0" y="32" text-anchor="middle" fill="#80CBC4" font-family="'Segoe UI', Ubuntu, sans-serif" font-weight="400" font-size="14px" class="stagger" style="animation-delay: 500ms;">
+        Total Contributions
+      </text>
+    </g>
+    <g transform="translate(519, 130)">
+      <text x="0" y="32" text-anchor="middle" fill="#4E7A6B" font-family="'Segoe UI', Ubuntu, sans-serif" font-weight="400" font-size="12px" class="stagger" style="animation-delay: 600ms;">
+        Sep 30, 2021 – Present
+      </text>
+    </g>
+
+    <!-- Column 2: Current Streak (with official fire icon & ring) -->
+    <!-- Current Streak label -->
+    <g transform="translate(667, 122)">
+      <text x="0" y="32" text-anchor="middle" fill="#00A375" font-family="'Segoe UI', Ubuntu, sans-serif" font-weight="700" font-size="14px" class="stagger" style="animation-delay: 700ms;">
+        Current Streak
+      </text>
+    </g>
+    <!-- Current Streak range -->
+    <g transform="translate(667, 158)">
+      <text x="0" y="21" text-anchor="middle" fill="#80CBC4" font-family="'Segoe UI', Ubuntu, sans-serif" font-weight="400" font-size="12px" class="stagger" style="animation-delay: 700ms;">
+        Sep 3 – Sep 7
+      </text>
+    </g>
+
+    <!-- Ring around number with mask for fire icon -->
+    <g mask="url(#mask_out_ring_behind_fire)">
+      <circle cx="667" cy="81" r="40" fill="none" stroke="#00A375" stroke-width="5" class="stagger" style="animation-delay: 300ms;"/>
+    </g>
+
+    <!-- Official Fire icon -->
+    <g transform="translate(667, 29.5)" stroke-opacity="0" class="stagger" style="animation-delay: 450ms;">
+      <path d="M -12 -0.5 L 15 -0.5 L 15 23.5 L -12 23.5 L -12 -0.5 Z" fill="none"/>
+      <path d="M 1.5 0.67 C 1.5 0.67 2.24 3.32 2.24 5.47 C 2.24 7.53 0.89 9.2 -1.17 9.2 C -3.23 9.2 -4.79 7.53 -4.79 5.47 L -4.76 5.11 C -6.78 7.51 -8 10.62 -8 13.99 C -8 18.41 -4.42 22 0 22 C 4.42 22 8 18.41 8 13.99 C 8 8.6 5.41 3.79 1.5 0.67 Z M -0.29 19 C -2.07 19 -3.51 17.6 -3.51 15.86 C -3.51 14.24 -2.46 13.1 -0.7 12.74 C 1.07 12.38 2.9 11.53 3.92 10.16 C 4.31 11.45 4.51 12.81 4.51 14.2 C 4.51 16.85 2.36 19 -0.29 19 Z" fill="#00A375" stroke-opacity="0"/>
+    </g>
+
+    <!-- Current Streak big number (Centered inside ring) -->
+    <g transform="translate(667, 58)">
+      <text x="0" y="32" text-anchor="middle" fill="#00A375" font-family="'Segoe UI', Ubuntu, sans-serif" font-weight="700" font-size="28px" style="animation: currstreak 0.6s linear forwards;">
+        5
+      </text>
+    </g>
+
+    <!-- Column 3: Longest Streak -->
+    <g transform="translate(815, 58)">
+      <text x="0" y="32" text-anchor="middle" fill="#00A375" font-family="'Segoe UI', Ubuntu, sans-serif" font-weight="700" font-size="28px" class="stagger" style="animation-delay: 800ms;">
+        38
+      </text>
+    </g>
+    <g transform="translate(815, 98)">
+      <text x="0" y="32" text-anchor="middle" fill="#80CBC4" font-family="'Segoe UI', Ubuntu, sans-serif" font-weight="400" font-size="14px" class="stagger" style="animation-delay: 900ms;">
+        Longest Streak
+      </text>
+    </g>
+    <g transform="translate(815, 130)">
+      <text x="0" y="32" text-anchor="middle" fill="#4E7A6B" font-family="'Segoe UI', Ubuntu, sans-serif" font-weight="400" font-size="12px" class="stagger" style="animation-delay: 1000ms;">
+        Apr 11 – May 18
+      </text>
+    </g>
+  </g>
+
+  <!-- ==================== SECTION 2: MONTHLY ACTIVITY GRAPH ==================== -->
+  <!-- Horizontal Divider 1 -->
+  <line x1="25" y1="225" x2="865" y2="225" stroke="#00573F" stroke-width="1" stroke-opacity="0.7"/>
+
+  <!-- Graph Header & Caption -->
+  <text class="section-header" x="25" y="248">Activity</text>
+  <text class="caption" x="865" y="248" text-anchor="end">contributions in the last year</text>
+
+  <!-- Clipped Area & Curve Line -->
+  <g clip-path="url(#chart_reveal_clip)">
+    <!-- Area Fill -->
+    <path d="M 35.0 345.0 L 35.0 345.0 C 45.8 344.3, 78.3 344.2, 100.0 340.6 C 121.7 337.1, 143.3 324.1, 165.0 323.9 C 186.7 323.7, 208.3 338.3, 230.0 339.5 C 251.7 340.8, 273.3 333.0, 295.0 331.2 C 316.7 329.4, 338.3 331.5, 360.0 328.6 C 381.7 325.8, 403.3 319.5, 425.0 314.1 C 446.7 308.6, 468.3 295.0, 490.0 295.9 C 511.7 296.8, 533.3 315.9, 555.0 319.5 C 576.7 323.2, 598.3 316.6, 620.0 317.7 C 641.7 318.8, 663.3 334.9, 685.0 326.1 C 706.7 317.3, 728.3 266.7, 750.0 265.0 C 771.7 263.3, 804.2 307.4, 815.0 315.9 L 815.0 345.0 Z" fill="#00A375" fill-opacity="0.35" />
+    <!-- Top Curve Stroke -->
+    <path d="M 35.0 345.0 C 45.8 344.3, 78.3 344.2, 100.0 340.6 C 121.7 337.1, 143.3 324.1, 165.0 323.9 C 186.7 323.7, 208.3 338.3, 230.0 339.5 C 251.7 340.8, 273.3 333.0, 295.0 331.2 C 316.7 329.4, 338.3 331.5, 360.0 328.6 C 381.7 325.8, 403.3 319.5, 425.0 314.1 C 446.7 308.6, 468.3 295.0, 490.0 295.9 C 511.7 296.8, 533.3 315.9, 555.0 319.5 C 576.7 323.2, 598.3 316.6, 620.0 317.7 C 641.7 318.8, 663.3 334.9, 685.0 326.1 C 706.7 317.3, 728.3 266.7, 750.0 265.0 C 771.7 263.3, 804.2 307.4, 815.0 315.9" fill="none" stroke="#00A375" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <!-- X-Axis Baseline & Ticks -->
+  <line x1="35" y1="345" x2="815" y2="345" stroke="#00573F" stroke-width="1"/>
+  <text x="35.0" y="361" text-anchor="middle" font-size="10" fill="#80CBC4">25/09</text>
+    <line x1="35.0" y1="345" x2="35.0" y2="349" stroke="#00573F" stroke-width="1"/>
+    <text x="165.0" y="361" text-anchor="middle" font-size="10" fill="#80CBC4">25/11</text>
+    <line x1="165.0" y1="345" x2="165.0" y2="349" stroke="#00573F" stroke-width="1"/>
+    <text x="295.0" y="361" text-anchor="middle" font-size="10" fill="#80CBC4">26/01</text>
+    <line x1="295.0" y1="345" x2="295.0" y2="349" stroke="#00573F" stroke-width="1"/>
+    <text x="425.0" y="361" text-anchor="middle" font-size="10" fill="#80CBC4">26/03</text>
+    <line x1="425.0" y1="345" x2="425.0" y2="349" stroke="#00573F" stroke-width="1"/>
+    <text x="555.0" y="361" text-anchor="middle" font-size="10" fill="#80CBC4">26/05</text>
+    <line x1="555.0" y1="345" x2="555.0" y2="349" stroke="#00573F" stroke-width="1"/>
+    <text x="685.0" y="361" text-anchor="middle" font-size="10" fill="#80CBC4">26/07</text>
+    <line x1="685.0" y1="345" x2="685.0" y2="349" stroke="#00573F" stroke-width="1"/>
+    <text x="815.0" y="361" text-anchor="middle" font-size="10" fill="#80CBC4">26/09</text>
+    <line x1="815.0" y1="345" x2="815.0" y2="349" stroke="#00573F" stroke-width="1"/>
+    
+
+  <!-- Y-Axis Ticks -->
+  
+    <line x1="815" y1="345" x2="819" y2="345" stroke="#00573F" stroke-width="1"/>
+    <text x="823" y="348" font-size="10" fill="#80CBC4">0</text>
+    <line x1="815" y1="305.0" x2="819" y2="305.0" stroke="#00573F" stroke-width="1"/>
+    <text x="823" y="308.0" font-size="10" fill="#80CBC4">110</text>
+    <line x1="815" y1="265" x2="819" y2="265" stroke="#00573F" stroke-width="1"/>
+    <text x="823" y="268" font-size="10" fill="#80CBC4">220</text>
+    
+
+  <!-- ==================== SECTION 3: TOP LANGUAGES ==================== -->
+  <!-- Horizontal Divider 2 -->
+  <line x1="25" y1="385" x2="865" y2="385" stroke="#00573F" stroke-width="1" stroke-opacity="0.7"/>
+
+  <text class="section-header" x="25" y="407">Top Languages</text>
+
+  <!-- Segmented Language Bar (Official Linguist Colors) -->
+  <g>
+    <rect class="lang-seg" x="25" y="418" width="346" height="8" fill="#3572A5" rx="4" />
+    <rect class="lang-seg" x="373" y="418" width="205" height="8" fill="#3178C6" rx="4" />
+    <rect class="lang-seg" x="580" y="418" width="153" height="8" fill="#F1E05A" rx="4" />
+    <rect class="lang-seg" x="735" y="418" width="87" height="8" fill="#F34B7D" rx="4" />
+    <rect class="lang-seg" x="824" y="418" width="47" height="8" fill="#E34C26" rx="4" />
+    
+  </g>
+
+  <!-- Language Legend -->
+  <g>
+    
+      <g class="stagger" style="animation-delay: 600ms;">
+        <circle cx="25" cy="450" r="4.5" fill="#3572A5" />
+        <text class="font-stat bold" x="37" y="454">Python</text>
+        <text class="font-stat" x="97" y="454" fill="#80CBC4">41.2%</text>
+      </g>
+      <g class="stagger" style="animation-delay: 700ms;">
+        <circle cx="200" cy="450" r="4.5" fill="#3178C6" />
+        <text class="font-stat bold" x="212" y="454">TypeScript</text>
+        <text class="font-stat" x="308" y="454" fill="#80CBC4">24.5%</text>
+      </g>
+      <g class="stagger" style="animation-delay: 800ms;">
+        <circle cx="385" cy="450" r="4.5" fill="#F1E05A" />
+        <text class="font-stat bold" x="397" y="454">JavaScript</text>
+        <text class="font-stat" x="493" y="454" fill="#80CBC4">18.3%</text>
+      </g>
+      <g class="stagger" style="animation-delay: 900ms;">
+        <circle cx="570" cy="450" r="4.5" fill="#F34B7D" />
+        <text class="font-stat bold" x="582" y="454">C++</text>
+        <text class="font-stat" x="615" y="454" fill="#80CBC4">10.4%</text>
+      </g>
+      <g class="stagger" style="animation-delay: 1000ms;">
+        <circle cx="735" cy="450" r="4.5" fill="#E34C26" />
+        <text class="font-stat bold" x="747" y="454">HTML/CSS</text>
+        <text class="font-stat" x="825" y="454" fill="#80CBC4">5.6%</text>
+      </g>
+  </g>
+</svg>
