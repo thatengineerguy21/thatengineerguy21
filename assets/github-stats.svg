@@ -247,7 +247,7 @@
     <!-- Current Streak range -->
     <g transform="translate(667, 158)">
       <text x="0" y="21" text-anchor="middle" fill="#80CBC4" font-family="'Segoe UI', Ubuntu, sans-serif" font-weight="400" font-size="12px" class="stagger" style="animation-delay: 700ms;">
-        Sep 20 &#8211; Sep 21
+        No active streak
       </text>
     </g>
 
@@ -265,7 +265,7 @@
     <!-- Current Streak big number (Centered inside ring) -->
     <g transform="translate(667, 58)">
       <text x="0" y="32" text-anchor="middle" fill="#00A375" font-family="'Segoe UI', Ubuntu, sans-serif" font-weight="700" font-size="28px" style="animation: currstreak 0.6s linear forwards;">
-        2
+        0
       </text>
     </g>
 
