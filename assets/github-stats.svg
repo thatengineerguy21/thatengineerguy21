@@ -339,11 +339,11 @@
 
   <!-- Segmented Language Bar (Official Linguist Colors) -->
   <g>
-    <rect class="lang-seg" x="25" y="418" width="392" height="8" fill="#DA5B0B" rx="4" />
-    <rect class="lang-seg" x="419" y="418" width="141" height="8" fill="#3178c6" rx="4" />
-    <rect class="lang-seg" x="562" y="418" width="117" height="8" fill="#3572A5" rx="4" />
-    <rect class="lang-seg" x="681" y="418" width="88" height="8" fill="#00ADD8" rx="4" />
-    <rect class="lang-seg" x="771" y="418" width="57" height="8" fill="#f1e05a" rx="4" />
+    <rect class="lang-seg" x="25" y="418" width="391" height="8" fill="#DA5B0B" rx="4" />
+    <rect class="lang-seg" x="418" y="418" width="141" height="8" fill="#3178c6" rx="4" />
+    <rect class="lang-seg" x="561" y="418" width="117" height="8" fill="#3572A5" rx="4" />
+    <rect class="lang-seg" x="680" y="418" width="88" height="8" fill="#00ADD8" rx="4" />
+    <rect class="lang-seg" x="770" y="418" width="57" height="8" fill="#f1e05a" rx="4" />
     
   </g>
 
@@ -353,7 +353,7 @@
       <g class="stagger" style="animation-delay: 600ms;">
         <circle cx="25" cy="450" r="4.5" fill="#DA5B0B" />
         <text class="font-stat bold" x="37" y="454">Jupyter Notebook</text>
-        <text class="font-stat" x="187" y="454" fill="#80CBC4">46.7%</text>
+        <text class="font-stat" x="187" y="454" fill="#80CBC4">46.6%</text>
       </g>
       <g class="stagger" style="animation-delay: 700ms;">
         <circle cx="200" cy="450" r="4.5" fill="#3178c6" />
